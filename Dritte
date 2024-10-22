@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktive Mindmap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: aliceblue;
+            background-image: url(https://c.wallhere.com/photos/20/fa/abstract_gray_simple_background-73349.jpg!d);
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 15px;
+        }
+        .mindmap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #3a3535cc;
+            border-radius: 10px;
+            background-color: #3a3535cc; /* Hintergrund leicht transparent */
+            box-shadow: 0 0 30px  rgb(4, 231, 15); /* Schatten für bessere Sichtbarkeit */
+        }
+
+        
+        .node {
+            cursor: pointer;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            background-color: #3a3535cc;
+            width: 600px; /* Feste Breite für die Knoten */
+            text-align: left;
+        
+        }
+        .details {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border-top: 2px solid #ddd;
+            background-color: 3a3535cc;
+            max-height: 400px; /* Maximale Höhe für die Details-Box */
+            overflow-y: auto;
+    
+        }
+        .node.active .details {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="mindmap">
+        <div class="node" onclick="toggleDetails(this)">
+            Was ist IT-Sicherheit?
+            <div class="details">
+                <ul>
+                    <li><b>Vertraulichkeit</b></li>
+                    <p>Dies bedeutet, dass Informationen nur von autorisierten Personen oder Systemen eingesehen oder verarbeitet werden können. Es geht darum, zu verhindern, dass unbefugte Dritte Zugang zu sensiblen oder geschützten Daten erhalten. Beispiele für Maßnahmen zur Sicherstellung der Vertraulichkeit sind die Verschlüsselung von Daten und der Einsatz starker Passwörter.</p>
+                    <li><b>Integrität</b></li>
+                    <p>Die Integrität bezieht sich darauf, dass Daten und Systeme unverändert und korrekt bleiben. Das Ziel ist es, sicherzustellen, dass Informationen nicht unbefugt verändert, manipuliert oder beschädigt werden. Maßnahmen zur Wahrung der Integrität können Prüfziffern, Hash-Funktionen und Zugriffsrechte sein.</p>
+                    <li><b>Verfügbarkeit</b></li>
+                    <p>Verfügbarkeit bedeutet, dass Systeme und Daten immer dann zugänglich sind, wenn sie benötigt werden. Es geht darum, sicherzustellen, dass die IT-Ressourcen zuverlässig und ohne Unterbrechungen funktionieren. Maßnahmen zur Sicherstellung der Verfügbarkeit sind regelmäßige Backups, Redundanzsysteme und robuste Notfallpläne.</p>
+                </ul>
+            </div>
+        </div>
+        <div class="node" onclick="toggleDetails(this)">
+            Risiken
+            <div class="details">
+                <ul>
+                    <li><b>Phishing</b></li>
+                    <p>Phishing ist eine betrügerische Methode, bei der Angreifer versuchen, sensible Informationen wie Passwörter, Kreditkartennummern oder andere persönliche Daten zu stehlen, indem sie sich als vertrauenswürdige Quelle ausgeben.</p>
+                    <p><b>E-Mail-Phishing</b>: Die Angreifer senden gefälschte E-Mails, die von bekannten Unternehmen oder Institutionen zu stammen scheinen. Diese E-Mails enthalten oft Links zu gefälschten Webseiten oder Anhänge, die Malware enthalten können. Das Ziel ist es, dass der Empfänger auf den Link klickt und seine persönlichen Daten auf der gefälschten Website eingibt.</p>
+                    <p><b>Spear-Phishing</b>: Diese gezielte Form des Phishings richtet sich an bestimmte Personen oder Unternehmen. Die E-Mails sind oft personalisiert und scheinen spezifische Informationen zu enthalten, die den Empfänger glauben lassen, dass sie echt sind.</p>
+                    <p><b>Smishing</b>: Ähnlich wie E-Mail-Phishing, aber die Angreifer nutzen SMS-Nachrichten, um ihre Opfer zu täuschen.</p>
+                    <p><b>Vishing</b>: Hierbei handelt es sich um Voice-Phishing, bei dem Angreifer telefonisch Kontakt aufnehmen und versuchen, sensible Informationen zu erlangen.</p>
+                    <li><b>Malware</b></li>
+                    <p>Malware bezeichnet jede Art von Software, die darauf ausgelegt ist, Schaden anzurichten oder unbefugten Zugriff auf ein System zu erhalten. Dazu gehören Viren, Würmer, Trojaner, Ransomware und andere bösartige Programme.</p>
+                    <p><b>Viren</b>: Schadprogramme, die sich in andere Programme oder Dateien einbetten und sich verbreiten, wenn das infizierte Programm oder die Datei geöffnet wird.</p>
+                    <p><b>Würmer</b>: Selbstreplizierende Programme, die sich über Netzwerke verbreiten können, oft ohne dass der Benutzer etwas tun muss.</p>
+                    <p><b>Trojaner</b>: Programme, die sich als harmlose Software ausgeben, aber tatsächlich schädliche Funktionen ausführen, sobald sie installiert sind.</p>
+                    <p><b>Ransomware</b>: Malware, die Dateien verschlüsselt oder Systeme blockiert und Lösegeld für die Wiederherstellung verlangt.</p>
+                    <p><b>Spyware</b>: Software, die heimlich Informationen über das Benutzerverhalten sammelt und weitergibt.</p>
+                    <li><b>Hackerangriffe</b></li>
+                    <p>Hackerangriffe umfassen eine Vielzahl von Methoden, bei denen Angreifer versuchen, unbefugten Zugang zu Computersystemen, Netzwerken oder Daten zu erlangen, oft mit dem Ziel, Schaden anzurichten oder Informationen zu stehlen.</p>
+                    <p><b>DDoS-Angriffe</b>: Überlastung eines Systems oder Netzwerks durch massenhafte Anfragen, um den Dienst zu unterbrechen.</p>
+                    <p><b>Brute-Force-Angriffe</b>: Versuch, Passwörter durch systematisches Ausprobieren aller möglichen Kombinationen zu erraten.</p>
+                    <p><b>Man-in-the-Middle-Angriffe</b>: Angreifer positionieren sich zwischen zwei kommunizierenden Parteien, um Daten abzufangen oder zu manipulieren.</p>
+                    <p><b>SQL-Injection</b>: Angreifer nutzen Sicherheitslücken in Datenbankanwendungen aus, um unbefugten Zugriff auf Datenbanken zu erhalten.</p>
+                    <p><b>Social Engineering</b>: Manipulation von Personen, um sensible Informationen zu erhalten oder Sicherheitsmaßnahmen zu umgehen.</p>
+                </ul>
+            </div>
+        </div>
+        <div class="node" onclick="toggleDetails(this)">
+            Schutzmaßnahmen
+            <div class="details">
+                <ul>
+                    <li><b>Firewalls</b></li>
+                    <p>Eine Firewall ist eine Sicherheitsvorrichtung oder -software, die den ein- und ausgehenden Netzwerkverkehr überwacht und steuert. Ihr Hauptziel ist es, unbefugten Zugriff auf ein Netzwerk oder System zu verhindern und potenziell gefährliche Datenpakete zu blockieren.</p>
+                    <p><b>Hardware-Firewalls</b>: Diese bestehen aus physischen Geräten, die zwischen dem internen Netzwerk und dem Internet geschaltet werden. Sie bieten oft leistungsstarke Funktionen und sind häufig in Routern integriert.</p>
+                    <p><b>Software-Firewalls</b>: Diese werden auf einzelnen Computern oder Servern installiert und bieten Schutz auf der Ebene des Betriebssystems. Sie sind besonders nützlich für Einzelbenutzer und kleine Netzwerke.</p>
+                    <p><b>Next-Generation Firewalls (NGFW)</b>: Diese erweitern die traditionellen Firewall-Funktionen um zusätzliche Sicherheitsfeatures wie Intrusion Prevention Systems (IPS), tiefere Paketinspektion und Anwendungskontrolle.</p>
+                    <li><b>Antivirus-Software</b></li>
+                    <p>Antivirus-Software ist ein Programm, das entwickelt wurde, um Schadsoftware (Malware) zu erkennen, zu verhindern und zu entfernen. Sie schützt Computer und Netzwerke vor verschiedenen Arten von Bedrohungen, einschließlich Viren, Würmern, Trojanern und Ransomware.</p>
+                    <p><b>On-Demand-Scans</b>: Diese Art von Scans wird manuell durch den Benutzer gestartet und überprüft spezifische Dateien oder Verzeichnisse auf Malware.</p>
+                    <p><b>Heuristische Analyse</b>: Diese Methode sucht nach verdächtigen Verhaltensmustern oder Codefragmenten, die auf unbekannte oder neuartige Malware hinweisen könnten.</p>
+                    <p><b>Echtzeitschutz</b>: Diese Funktion überwacht kontinuierlich alle Aktivitäten auf dem Computer und scannt Dateien, bevor sie geöffnet oder ausgeführt werden.</p>
+                    <li><b>Backups</b></li>
+                    <p>Backups sind Sicherungskopien von Daten, die regelmäßig erstellt werden, um im Falle eines Datenverlustes, eines Systemausfalls oder einer Katastrophe die Wiederherstellung der Originaldaten zu ermöglichen.</p>
+                    <p><b>Voll-Backups</b>: Es wird eine komplette Kopie aller Daten erstellt. Dies ist die umfassendste Art des Backups, benötigt jedoch viel Speicherplatz und Zeit.</p>
+                    <p><b>Inkrementelle Backups</b>: Es werden nur die Daten gesichert, die seit dem letzten Backup (voll oder inkrementell) geändert wurden. Dies spart Speicherplatz und Zeit.</p>
+                    <p><b>Differenzielle Backups</b>: Es werden alle Daten gesichert, die seit dem letzten vollständigen Backup geändert wurden. Dies benötigt mehr Speicherplatz als inkrementelle Backups, aber weniger als vollständige Backups.</p>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDetails(node) {
+            const isActive = node.classList.contains('active');
+            // Close all nodes
+            document.querySelectorAll('.node').forEach(el => el.classList.remove('active'));
+            // Toggle current node
+            if (!isActive) {
+                node.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
