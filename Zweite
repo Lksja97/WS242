@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+            background-image: url(https://c.wallhere.com/photos/20/fa/abstract_gray_simple_background-73349.jpg!d);
+            background-size: cover;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; 
+            color: #fff; 
+            margin: 0px;
+            padding: 0px;
+            display:grid;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+         
+        }
+        .quiz-container {
+            background: #222;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(6, 247, 6, 0.8);
+            padding: 30px; 
+            width: 100%;
+            max-width: 600px;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            flex:1;
+        
+        }
+        .question {
+            margin: 50px 0;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+            
+        }
+        .answer {
+            margin: 10px 0;
+            font-size: 14px;
+            font-weight: lighter;
+        }
+        .answer input[type="radio"] {
+            accent-color: #0f0; 
+        }
+        .btn-container {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #0f0; 
+            border: none;
+            color: #000; 
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0c0; 
+        }
+        .hidden {
+            display: none;
+        }
+        #result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+      
+        
+    
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div id="welcome-screen">
+            <h1>Willkommen zum Quiz!</h1>
+            <p>Beantworten Sie die folgenden Fragen, um Ihr Wissen zu testen.</p>
+            <button onclick="startQuiz()">Quiz starten</button>
+        </div>
+        <div id="quiz" class="hidden">
+            <div id="question-container"></div>
+            <div class="btn-container">
+                <button id="prev-btn" class="hidden" onclick="prevQuestion()">Zurück</button>
+                <button id="next-btn" onclick="nextQuestion()">Weiter</button>
+                <button id="submit-btn" class="hidden" onclick="submitQuiz()">Quiz abschicken</button>
+            </div>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Was ist eine Firewall?", answers: { a: "Ein Software-Tool zur Datenwiederherstellung", b: "Ein Gerät oder Programm zur Überwachung und Steuerung des Netzwerkverkehrs", c: "Ein Virus-Scanner" }, correctAnswer: "b" },
+            { question: "Was bedeutet Phishing?", answers: { a: "Der Schutz vor Viren", b: "Das Verschlüsseln von Daten", c: "Der Versuch, persönliche Daten durch Täuschung zu erlangen" }, correctAnswer: "c" },
+            { question: "Was ist ein Trojaner?", answers: { a: "Ein Virus, der sich über Netzwerke verbreitet", b: "Ein schadhafter Code, der als nützliche Software getarnt ist", c: "Ein Sicherheitsprotokoll für Netzwerke" }, correctAnswer: "b" },
+            { question: "Was ist ein sicheres Passwort?", answers: { a: "Ein Passwort, das aus einer Kombination von Buchstaben, Zahlen und Sonderzeichen besteht", b: "Ein Passwort, das nur Zahlen enthält", c: "Ein Passwort, das nur aus Buchstaben besteht" }, correctAnswer: "a" },
+            { question: "Was ist ein Zero-Day-Exploit?", answers: { a: "Ein Sicherheitsupdate, das sofort nach der Entdeckung eines Fehlers veröffentlicht wird", b: "Ein Angriff, der eine Sicherheitsanfälligkeit ausnutzt, bevor ein Patch verfügbar ist", c: "Ein Antivirus-Programm, das immer auf dem neuesten Stand ist" }, correctAnswer: "b" },
+            { question: "Was ist ein VPN?", answers: { a: "Ein Virtual Private Network, das Datenverkehr verschlüsselt und anonymisiert", b: "Ein Protokoll zur Datenübertragung", c: "Ein Werkzeug zur Datenwiederherstellung" }, correctAnswer: "a" },
+            { question: "Was ist ein Botnetz?", answers: { a: "Ein Netzwerk von Computern, die zusammenarbeiten, um eine Aufgabe zu erledigen", b: "Ein Netzwerk, das sicher vor Angriffen ist", c: "Ein Netzwerk von infizierten Computern, die von einem Angreifer gesteuert werden" }, correctAnswer: "c" },
+            { question: "Was bedeutet Social Engineering?", answers: { a: "Die Nutzung von sozialen Medien zur Verbesserung der IT-Sicherheit", b: "Die Manipulation von Menschen, um vertrauliche Informationen zu erhalten", c: "Die Verschlüsselung von Kommunikationskanälen" }, correctAnswer: "b" },
+            { question: "Was ist ein DDoS-Angriff?", answers: { a: "Ein Angriff, bei dem ein einzelner Computer eine Website überlastet", b: "Ein Angriff, bei dem viele Computer gleichzeitig versuchen, einen Dienst oder eine Website zu überlasten", c: "Ein Angriff, bei dem ein Virus über Netzwerke verbreitet wird" }, correctAnswer: "b" },
+            { question: "Was ist Zwei-Faktor-Authentifizierung (2FA)?", answers: { a: "Eine Methode zur Überprüfung der Identität, die zwei verschiedene Arten von Nachweisen erfordert", b: "Ein Verfahren zur Datenverschlüsselung", c: "Ein Sicherheitsprotokoll für Netzwerke" }, correctAnswer: "a" },
+            { question: "Was ist ein Sicherheits-Patch?", answers: { a: "Ein Update, das neue Funktionen hinzufügt", b: "Ein Update, das Sicherheitsanfälligkeiten behebt", c: "Ein Update, das die Systemgeschwindigkeit erhöht" }, correctAnswer: "b" },
+            { question: "Was bedeutet Kryptographie?", answers: { a: "Die Kunst, Daten in unleserliche Form zu verschlüsseln", b: "Die Analyse von Netzwerkanomalien", c: "Die Erstellung von Backups" }, correctAnswer: "a" },
+            { question: "Was ist ein Man-in-the-Middle-Angriff?", answers: { a: "Ein Angriff, bei dem ein Angreifer die Kommunikation zwischen zwei Parteien abfängt und möglicherweise manipuliert", b: "Ein Angriff auf einen einzelnen Computer", c: "Ein Angriff auf eine Netzwerkinfrastruktur" }, correctAnswer: "a" },
+            { question: "Was ist Ransomware?", answers: { a: "Ein Sicherheitsprotokoll für Netzwerke", b: "Eine Methode zur Datenwiederherstellung", c: "Eine Art von Malware, die Dateien verschlüsselt und ein Lösegeld fordert, um sie wieder freizugeben" }, correctAnswer: "c" },
+            { question: "Was bedeutet Sicherheitsbewertung?", answers: { a: "Die Analyse der Sicherheitsanfälligkeiten eines Systems oder Netzwerks", b: "Die Durchführung von Penetrationstests", c: "Die Installation von Sicherheitssoftware" }, correctAnswer: "a" },
+            { question: "Was ist ein Schlüssel-Management-System?", answers: { a: "Ein System zur Verwaltung von Verschlüsselungsschlüsseln", b: "Ein System zur Überwachung des Netzwerkverkehrs", c: "Ein System zur Datenwiederherstellung" }, correctAnswer: "a" },
+            { question: "Was ist ein Rootkit?", answers: { a: "Ein Tool, das die Administratorrechte eines Systems verbirgt", b: "Ein Antivirus-Programm", c: "Ein Netzwerkprotokoll" }, correctAnswer: "a" },
+            { question: "Was bedeutet Vertraulichkeit in der IT-Sicherheit?", answers: { a: "Die Integrität von Daten", b: "Die Verfügbarkeit von Daten auf mehreren Servern", c: "Die Sicherstellung, dass nur autorisierte Personen Zugang zu bestimmten Informationen haben" }, correctAnswer: "c" },
+            { question: "Was ist ein Verschlüsselungsalgorithmus?", answers: { a: "Ein Sicherheitsprotokoll für Netzwerke", b: "Ein mathematisches Verfahren zur Sicherstellung der Vertraulichkeit von Daten", c: "Ein Tool zur Datenwiederherstellung" }, correctAnswer: "b" },
+            { question: "Was ist ein Sicherheitsprotokoll?", answers: { a: "Ein Regelwerk zur Sicherstellung der IT-Sicherheit in einem Netzwerk", b: "Ein Update zur Verbesserung der Systemgeschwindigkeit", c: "Ein Verfahren zur Datenwiederherstellung" }, correctAnswer: "a" },
+            { question: "Was ist Datensicherung?", answers: { a: "Die Erstellung von Kopien von Daten zur Wiederherstellung im Falle eines Datenverlusts", b: "Die Verschlüsselung von Kommunikationskanälen", c: "Die Überprüfung der Netzwerksicherheit" }, correctAnswer: "a" },
+            { question: "Was ist ein Sicherheitsereignis?", answers: { a: "Ein Vorfall, der eine Bedrohung für die IT-Sicherheit darstellt", b: "Ein reguläres Software-Update", c: "Ein Sicherheitsprotokoll für Netzwerke" }, correctAnswer: "a" },
+            { question: "Was ist IT-Compliance?", answers: { a: "Die regelmäßige Durchführung von Sicherheitsüberprüfungen", b: "Die Erstellung von Backup-Kopien", c: "Die Einhaltung von gesetzlichen und regulatorischen Anforderungen an die IT-Sicherheit" }, correctAnswer: "c" },
+            { question: "Was ist ein Datenleck?", answers: { a: "Ein Virus, der Daten löscht", b: "Ein Vorfall, bei dem vertrauliche Daten unbeabsichtigt offengelegt werden", c: "Ein Tool zur Datenwiederherstellung" }, correctAnswer: "b" },
+            { question: "Was ist eine Sicherheitsarchitektur?", answers: { a: "Die Gestaltung der Benutzeroberfläche einer Anwendung", b: "Die Struktur des Datenbankmanagementsystems", c: "Die Struktur und Organisation der Sicherheitsmaßnahmen eines Systems oder Netzwerks" }, correctAnswer: "c" },
+            { question: "Was ist eine Digitale Signatur?", answers: { a: "Eine Methode zur Verifikation der Herkunft und Integrität von Daten", b: "Ein Tool zur Datenwiederherstellung", c: "Eine Methode zur Sicherstellung der Netzwerksicherheit" }, correctAnswer: "a" },
+            { question: "Was ist Malware?", answers: { a: "Ein Sicherheitsprotokoll für Netzwerke", b: "Ein Tool zur Datenwiederherstellung", c: "Ein allgemeiner Begriff für bösartige Software" }, correctAnswer: "c" },
+            { question: "Was bedeutet Integrität in der IT-Sicherheit?", answers: { a: "Die Verfügbarkeit von Daten auf mehreren Servern", b: "Die Sicherstellung, dass Daten unverändert und korrekt sind", c: "Ein Verfahren zur Datenwiederherstellung" }, correctAnswer: "b" },
+            { question: "Was ist ein Exploit?", answers: { a: "Ein Stück Software, das eine Schwachstelle ausnutzt, um unbefugten Zugriff zu erhalten", b: "Ein Verschlüsselungsalgorithmus", c: "Ein Sicherheitsprotokoll" }, correctAnswer: "a" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let shuffledQuestions;
+
+        function startQuiz() {
+            
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            document.getElementById('submit-btn').classList.add('hidden');
+
+            
+            shuffledQuestions = questions.sort(() => 0.5 - Math.random()).slice(0, 10);
+            userAnswers = new Array(shuffledQuestions.length).fill(null);
+
+            
+            showQuestion(currentQuestionIndex);
+        }
+
+        function showQuestion(index) {
+            const questionContainer = document.getElementById('question-container');
+            const question = shuffledQuestions[index];
+
+            questionContainer.innerHTML = `
+                <div class="question">
+                    <p>${index + 1}. ${question.question}</p>
+                    ${Object.keys(question.answers).map(answerKey => `
+                        <div class="answer">
+                            <input type="radio" id="q${index}_${answerKey}" name="q${index}" value="${answerKey}">
+                            <label for="q${index}_${answerKey}">${question.answers[answerKey]}</label>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            document.getElementById('prev-btn').classList.toggle('hidden', index === 0);
+            document.getElementById('next-btn').classList.toggle('hidden', index === shuffledQuestions.length - 1);
+            document.getElementById('submit-btn').classList.toggle('hidden', index !== shuffledQuestions.length - 1);
+        }
+
+        function nextQuestion() {
+            
+            const selectedAnswer = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
+            if (selectedAnswer) {
+                userAnswers[currentQuestionIndex] = selectedAnswer.value;
+            }
+            
+            
+            currentQuestionIndex++;
+            if (currentQuestionIndex < shuffledQuestions.length) {
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        function prevQuestion() {
+           
+            const selectedAnswer = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
+            if (selectedAnswer) {
+                userAnswers[currentQuestionIndex] = selectedAnswer.value;
+            }
+            
+            
+            currentQuestionIndex--;
+            if (currentQuestionIndex >= 0) {
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        function submitQuiz() {
+           
+            const selectedAnswer = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
+            if (selectedAnswer) {
+                userAnswers[currentQuestionIndex] = selectedAnswer.value;
+            }
+
+            
+            let score = 0;
+            shuffledQuestions.forEach((question, index) => {
+                if (userAnswers[index] === question.correctAnswer) {
+                    score++;
+                }
+            });
+
+          
+            document.getElementById('result').innerHTML = `Sie haben ${score} von ${shuffledQuestions.length} Fragen richtig beantwortet.`;
+            document.getElementById('quiz').classList.add('hidden');
+        }
+    </script>
+
+ 
+
+</body>
+</html>
